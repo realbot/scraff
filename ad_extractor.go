@@ -7,5 +7,5 @@ type Ad struct {
 }
 
 type AdExtractor interface {
-	Extract() []Ad
+	Extract(s string) (ads []Ad, err error)
 }
