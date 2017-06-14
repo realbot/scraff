@@ -1,9 +1,24 @@
 package scraff
 
-import "github.com/golang/glog"
+import (
+	"io/ioutil"
+	"net/http"
+)
 
-func AdRetriever(url string) (html string, err error) {
-	glog.Infof("ad processor version %s\n", processorVersion)
+type AdRetriever struct {
+	Url string
+}
 
-	return "", nil
+func (ar AdRetriever) retrieve() (html string, err error) {
+	resp, err := http.Get(ar.Url)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+	data, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+	html = string(data)
+	return
 }

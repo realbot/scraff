@@ -1,7 +1,6 @@
 package scraff
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/yhat/scrape"
@@ -10,22 +9,32 @@ import (
 )
 
 type ImmobiliareAd struct {
+	Name      string
+	Retriever AdRetriever
 }
 
-func (ia ImmobiliareAd) Extract(s string) (ads []Ad, err error) {
+func (ia ImmobiliareAd) Ads() (ads []Ad, err error) {
+	return nil, nil
+}
+
+func (ia ImmobiliareAd) extract(s string) (ads []Ad, err error) {
 	root, err := html.Parse(strings.NewReader(s))
 	if err != nil {
 		return
 	}
 	matcher := func(n *html.Node) bool {
 		if n.DataAtom == atom.A && n.Parent != nil && n.Parent.Parent != nil {
-			return scrape.Attr(n.Parent.Parent, "class") == "athing"
+			return scrape.Attr(n.Parent.Parent, "class") == "listing-item_body--content"
 		}
 		return false
 	}
+	ads = []Ad{}
 	matches := scrape.FindAll(root, matcher)
-	for i, m := range matches {
-		fmt.Printf("%2d %s (%s)\n", i, scrape.Text(m), scrape.Attr(m, "href"))
+	for _, m := range matches {
+		ads = append(ads, Ad{
+			Title: scrape.Text(m),
+			Url:   scrape.Attr(m, "href"),
+		})
 	}
-	return ads, nil
+	return
 }

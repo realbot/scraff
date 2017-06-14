@@ -7,7 +7,7 @@ import (
 const processorVersion = "1.0.0"
 
 type AdProcessor struct {
-	Extractors []AdExtractor
+	Extractors []AdProvider
 	Store      AdStore
 }
 

@@ -20,12 +20,19 @@ func main() {
 	redisURL := flag.String("redis", "localhost:6379", "Redis address")
 	flag.Parse()
 
-	extractors := []scraff.AdExtractor{}
+	extractors := []scraff.AdProvider{
+		scraff.ImmobiliareAd{
+			Name: "Immobiliare.it",
+			Retriever: scraff.AdRetriever{
+				Url: "https://www.immobiliare.it/Milano/affitti_appartamenti-Assago.html?criterio=rilevanza",
+			},
+		},
+	}
 
-	te := scraff.AdProcessor{
+	ap := scraff.AdProcessor{
 		Extractors: extractors,
 		Store:      scraff.NewRedisAdStore(*redisURL),
 	}
-	exitCode := te.Run()
+	exitCode := ap.Run()
 	os.Exit(exitCode)
 }
