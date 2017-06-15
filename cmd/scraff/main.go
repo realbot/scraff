@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"os"
 	"runtime"
 
 	scraff "github.com/realbot/scraff"
@@ -20,9 +19,8 @@ func main() {
 	redisURL := flag.String("redis", "localhost:6379", "Redis address")
 	flag.Parse()
 
-	extractors := []scraff.AdProvider{
+	providers := []scraff.AdProvider{
 		scraff.ImmobiliareAd{
-			Name: "Immobiliare.it",
 			Retriever: scraff.AdRetriever{
 				Url: "https://www.immobiliare.it/Milano/affitti_appartamenti-Assago.html?criterio=rilevanza",
 			},
@@ -30,9 +28,8 @@ func main() {
 	}
 
 	ap := scraff.AdProcessor{
-		Extractors: extractors,
-		Store:      scraff.NewRedisAdStore(*redisURL),
+		Providers: providers,
+		Store:     scraff.NewRedisAdStore(*redisURL),
 	}
-	exitCode := ap.Run()
-	os.Exit(exitCode)
+	ap.Run()
 }

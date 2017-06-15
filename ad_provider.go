@@ -7,5 +7,6 @@ type Ad struct {
 }
 
 type AdProvider interface {
+	ID() string
 	Ads() (ads []Ad, err error)
 }

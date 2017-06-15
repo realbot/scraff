@@ -9,8 +9,11 @@ import (
 )
 
 type ImmobiliareAd struct {
-	Name      string
 	Retriever AdRetriever
+}
+
+func (ia ImmobiliareAd) ID() string {
+	return "Immobiliare.it"
 }
 
 func (ia ImmobiliareAd) Ads() (ads []Ad, err error) {

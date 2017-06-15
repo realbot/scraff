@@ -7,12 +7,24 @@ import (
 const processorVersion = "1.0.0"
 
 type AdProcessor struct {
-	Extractors []AdProvider
-	Store      AdStore
+	Providers []AdProvider
+	Store     AdStore
 }
 
-func (te AdProcessor) Run() int {
-	glog.Infof("ad processor version %s\n", processorVersion)
+func (ap AdProcessor) Run() {
+	glog.Infof("ad processor version %s", processorVersion)
+	for {
+		glog.Infof("Checking...")
+		for _, provider := range ap.Providers {
+			ads, err := provider.Ads()
+			if err != nil {
+				glog.Warningf("%s: %s", provider.ID, err)
+			}
+			ap.checkForNewAds(ads)
+		}
+	}
+}
 
-	return ExitCodeOK
+func (ap AdProcessor) checkForNewAds(ads []Ad) []Ad {
+	return nil
 }
