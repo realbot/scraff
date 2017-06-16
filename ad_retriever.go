@@ -2,7 +2,9 @@ package scraff
 
 import (
 	"io/ioutil"
+	"net"
 	"net/http"
+	"time"
 )
 
 type AdRetriever struct {
@@ -10,7 +12,17 @@ type AdRetriever struct {
 }
 
 func (ar AdRetriever) retrieve() (html string, err error) {
-	resp, err := http.Get(ar.Url)
+	var netTransport = &http.Transport{
+		Dial: (&net.Dialer{
+			Timeout: 5 * time.Second,
+		}).Dial,
+		TLSHandshakeTimeout: 5 * time.Second,
+	}
+	var netClient = &http.Client{
+		Timeout:   time.Second * 10,
+		Transport: netTransport,
+	}
+	resp, err := netClient.Get(ar.Url)
 	if err != nil {
 		return
 	}

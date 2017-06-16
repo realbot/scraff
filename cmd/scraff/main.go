@@ -22,7 +22,7 @@ func main() {
 
 	providers := []scraff.AdProvider{
 		scraff.NewImmobiliareAdProvider(
-			"Immobiliare.it",
+			"Immobiliare Assago",
 			"https://www.immobiliare.it/Milano/affitti_appartamenti-Assago.html?criterio=rilevanza"),
 	}
 

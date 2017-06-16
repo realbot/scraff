@@ -27,15 +27,18 @@ func NewAdProcessor(providers []AdProvider, store AdStore, sender AdSender, slee
 func (ap AdProcessor) Run() {
 	glog.Infof("ad processor version %s", processorVersion)
 	for {
-		glog.Info("Checking...")
+		glog.Info("Starting...")
 		var newads = []Ad{}
 		for _, provider := range ap.providers {
-			glog.Info("Checking " + provider.ID())
+			glog.Infof("Checking %s", provider.ID())
 			ads, err := provider.Ads()
 			if err != nil {
 				glog.Warningf("%s: %s", provider.ID, err)
 			} else {
-				newads = append(newads, ap.checkForNewAds(ads)...)
+				glog.Infof("Found %d ads", len(ads))
+				onlynew := ap.checkForNewAds(ads)
+				glog.Infof("Found %d new ads", len(onlynew))
+				newads = append(newads, onlynew...)
 			}
 		}
 		if len(newads) > 0 {
