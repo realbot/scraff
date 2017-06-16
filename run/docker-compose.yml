@@ -1,0 +1,27 @@
+version: '2.1'
+services:
+  redis:
+    image: redis
+    command: redis-server --appendonly yes
+    ports:
+    - "6380:6379"
+    volumes:
+    - /home/realbot/prj/scraff/redis:/data
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:6379"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+  scraff:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    image: scraff:latest
+    environment:
+      - http_proxy=http://172.17.0.1:3129/
+      - https_proxy=https://172.17.0.1:3129/
+      - HTTPS_PROXY=https://172.17.0.1:3129/
+      - HTTP_PROXY=http://172.17.0.1:3129/
+    command: -redis=redis:6379 -logtostderr=true
+    depends_on:
+      - "redis"

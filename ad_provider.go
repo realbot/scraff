@@ -1,9 +1,10 @@
 package scraff
 
 type Ad struct {
-	Url         string `json:"url"`
-	Title       string `json:"title"`
-	Description string `json:"descr"`
+	Url         string
+	Title       string
+	Description string
+	Provider    string
 }
 
 type AdProvider interface {

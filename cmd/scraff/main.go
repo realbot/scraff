@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"runtime"
+	"time"
 
 	scraff "github.com/realbot/scraff"
 )
@@ -20,16 +21,15 @@ func main() {
 	flag.Parse()
 
 	providers := []scraff.AdProvider{
-		scraff.ImmobiliareAd{
-			Retriever: scraff.AdRetriever{
-				Url: "https://www.immobiliare.it/Milano/affitti_appartamenti-Assago.html?criterio=rilevanza",
-			},
-		},
+		scraff.NewImmobiliareAdProvider(
+			"Immobiliare.it",
+			"https://www.immobiliare.it/Milano/affitti_appartamenti-Assago.html?criterio=rilevanza"),
 	}
 
-	ap := scraff.AdProcessor{
-		Providers: providers,
-		Store:     scraff.NewRedisAdStore(*redisURL),
-	}
+	ap := scraff.NewAdProcessor(
+		providers,
+		scraff.NewRedisAdStore(*redisURL),
+		scraff.MailAdSender{},
+		3*time.Hour)
 	ap.Run()
 }

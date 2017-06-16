@@ -8,19 +8,29 @@ import (
 	"golang.org/x/net/html/atom"
 )
 
-type ImmobiliareAd struct {
-	Retriever AdRetriever
+type ImmobiliareAdProvider struct {
+	id        string
+	retriever AdRetriever
 }
 
-func (ia ImmobiliareAd) ID() string {
-	return "Immobiliare.it"
+func NewImmobiliareAdProvider(id string, url string) *ImmobiliareAdProvider {
+	return &ImmobiliareAdProvider{
+		retriever: AdRetriever{
+			Url: url,
+		},
+	}
 }
 
-func (ia ImmobiliareAd) Ads() (ads []Ad, err error) {
+func (ia ImmobiliareAdProvider) ID() string {
+	return ia.id
+}
+
+func (ia ImmobiliareAdProvider) Ads() (ads []Ad, err error) {
+	//ia.retriever()
 	return nil, nil
 }
 
-func (ia ImmobiliareAd) extract(s string) (ads []Ad, err error) {
+func (ia ImmobiliareAdProvider) extract(s string) (ads []Ad, err error) {
 	root, err := html.Parse(strings.NewReader(s))
 	if err != nil {
 		return

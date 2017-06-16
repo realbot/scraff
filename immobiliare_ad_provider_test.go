@@ -6,7 +6,7 @@ import (
 )
 
 func TestExtract(t *testing.T) {
-	ia := &ImmobiliareAd{}
+	ia := &ImmobiliareAdProvider{}
 	content, err := ioutil.ReadFile("testdata/immobiliare.html")
 	if err != nil {
 		t.Error(err)
