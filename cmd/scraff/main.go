@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"time"
 
-	scraff "github.com/realbot/scraff"
+	"github.com/realbot/scraff"
 )
 
 func init() {
@@ -18,6 +18,9 @@ func init() {
 
 func main() {
 	redisURL := flag.String("redis", "localhost:6379", "Redis address")
+	mjPublicKey := flag.String("mjPublicKey", "", "Mailjet Public Key")
+	mjPrivateKey := flag.String("mjPrivateKey", "", "Mailjet Private Key")
+
 	flag.Parse()
 
 	providers := []scraff.AdProvider{
@@ -29,7 +32,7 @@ func main() {
 	ap := scraff.NewAdProcessor(
 		providers,
 		scraff.NewRedisAdStore(*redisURL),
-		scraff.MailAdSender{},
+		scraff.NewMailjetAdSender(*mjPublicKey, *mjPrivateKey),
 		3*time.Hour)
 	ap.Run()
 }
