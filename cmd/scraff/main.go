@@ -27,6 +27,9 @@ func main() {
 		scraff.NewImmobiliareAdProvider(
 			"Immobiliare Assago",
 			"https://www.immobiliare.it/Milano/affitti_appartamenti-Assago.html?criterio=rilevanza"),
+		scraff.NewImmobiliareAdProvider(
+			"Immobiliare Buccinasco",
+			"https://www.immobiliare.it/Milano/affitti_appartamenti-Buccinasco.html?criterio=rilevanza"),
 	}
 
 	ap := scraff.NewAdProcessor(
