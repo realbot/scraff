@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestExtract(t *testing.T) {
+func TestExtractImmobiliare(t *testing.T) {
 	ia := &ImmobiliareAdProvider{}
 	content, err := ioutil.ReadFile("testdata/immobiliare.html")
 	if err != nil {
@@ -15,6 +15,7 @@ func TestExtract(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+
 	if len(ads) != 5 {
 		t.Error("Wrong number of ads", ads)
 	}

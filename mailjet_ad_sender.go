@@ -25,7 +25,7 @@ func (m MailjetAdSender) Send(ads []Ad) (err error) {
 	subject := fmt.Sprintf("Found %d new ads", len(ads))
 	body := "New ads found:<ul>"
 	for _, a := range ads {
-		body = body + fmt.Sprintf("<li><a href='%s'>%s</a>", a.Url, a.Url)
+		body = body + fmt.Sprintf("<li>%s (<a href='%s'>%s</a>)", a.Title, a.Url, a.Url)
 	}
 	body = body + "</ul>"
 
