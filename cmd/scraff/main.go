@@ -44,12 +44,15 @@ func main() {
 		NewIdealistaAdProvider(
 			"Idealista Buccinasco",
 			"https://www.idealista.it/affitto-case/buccinasco-milano/"),
+		NewCasaAdProvider(
+			"Casa Assago-Buccinasco",
+			"http://www.casa.it/affitti-residenziale/immobile-appartamento-in-assago%2c+mi%2c+lombardia%3bbuccinasco%2c+mi%2c+lombardia/lista-1"),
 	}
 
 	ap := NewAdProcessor(
 		providers,
 		NewRedisAdStore(*redisURL),
 		NewMailjetAdSender(*mjPublicKey, *mjPrivateKey),
-		3*time.Hour)
+		2*time.Hour)
 	ap.Run()
 }
