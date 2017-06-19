@@ -18,10 +18,10 @@ services:
       context: .
     image: scraff:latest
     environment:
-      - http_proxy=http://172.17.0.1:3129/
-      - https_proxy=https://172.17.0.1:3129/
-      - HTTPS_PROXY=https://172.17.0.1:3129/
-      - HTTP_PROXY=http://172.17.0.1:3129/
-    command: -redis=redis:6379 -logtostderr=true
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+      - HTTPS_PROXY=${HTTPS_PROXY}
+      - HTTP_PROXY=${HTTP_PROXY}
+    command: -redis=redis:6379 -mjPublicKey=${MJ_APIKEY_PUBLIC} -mjPrivateKey=${MJ_APIKEY_PRIVATE} -logtostderr=true
     depends_on:
       - "redis"
