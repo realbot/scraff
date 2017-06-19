@@ -33,7 +33,7 @@ func (ap AdProcessor) Run() {
 			glog.Infof("Checking %s", provider.ID())
 			ads, err := provider.Ads()
 			if err != nil {
-				glog.Warningf("%s: %s", provider.ID, err)
+				glog.Warningf("%s: %s", provider.ID(), err)
 			} else {
 				glog.Infof("Found %d ads", len(ads))
 				onlynew := ap.checkForNewAds(ads)
